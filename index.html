@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVIX — Storepolio Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F6F1;
+    --panel:#FFFFFF;
+    --ink:#15201A;
+    --ink-soft:#4E5A52;
+    --line:#DEE3D8;
+    --amber:#E8A13B;
+    --amber-deep:#B87A1F;
+    --amber-bg:#FBEDD6;
+    --teal:#0E7C63;
+    --teal-deep:#0A5C49;
+    --teal-bg:#DFF0EA;
+    --coral:#D9553E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans Sinhala','Space Grotesk',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .num, .eyebrow, .price, .btn, nav .brand-tag{ font-family:'Space Grotesk','Noto Sans Sinhala',sans-serif; }
+  img,svg{display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  section{padding:88px 0;}
+  @media(max-width:640px){ section{padding:56px 0;} }
+
+  .eyebrow{
+    text-transform:uppercase; letter-spacing:.14em; font-size:12.5px; font-weight:600;
+    color:var(--teal-deep); display:inline-flex; align-items:center; gap:8px; margin-bottom:14px;
+  }
+  .eyebrow::before{content:""; width:16px; height:2px; background:var(--amber); display:inline-block;}
+  h1,h2,h3{font-weight:800; line-height:1.18; letter-spacing:-.01em;}
+  h2{font-size:clamp(26px,4vw,38px); margin-bottom:14px;}
+  p.lead{color:var(--ink-soft); font-size:16.5px; max-width:640px;}
+
+  /* NAV */
+  header{position:sticky; top:0; z-index:50; background:rgba(245,246,241,.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line);}
+  nav{display:flex; align-items:center; justify-content:space-between; padding:16px 0;}
+  .brand{display:flex; flex-direction:column; line-height:1;}
+  .brand-name{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; letter-spacing:.02em;}
+  .brand-tag{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-top:2px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:999px;
+    font-weight:600; font-size:14.5px; cursor:pointer; border:none; text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--teal); color:#fff;}
+  .btn-primary:hover{background:var(--teal-deep);}
+  .btn-ghost{background:transparent; color:var(--ink); border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-secondary{background:#fff; color:var(--ink); border:1.5px solid var(--line);}
+  .btn-secondary:hover{background:var(--line);}
+  .btn-sm{padding:9px 16px; font-size:13.5px;}
+  .floating-actions{position:fixed; right:20px; bottom:20px; z-index:60; display:flex; flex-direction:column; align-items:flex-end; gap:4px;}
+  .floating-actions .btn{box-shadow:0 12px 35px rgba(0,0,0,.12);}
+  .lang-label{font-size:10.5px; letter-spacing:.06em; color:var(--ink-soft); background:rgba(255,255,255,.85); padding:2px 8px; border-radius:999px;}
+
+  /* HERO */
+  .hero{padding-top:64px; padding-bottom:40px;}
+  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center;}
+  @media(max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero h1{font-size:clamp(32px,5.4vw,52px); margin-bottom:18px;}
+  .hero h1 span{color:var(--teal);}
+  .hero-ctas{display:flex; gap:12px; margin-top:28px; flex-wrap:wrap;}
+  .trust-line{margin-top:20px; font-size:13.5px; color:var(--ink-soft); display:flex; gap:18px; flex-wrap:wrap;}
+  .trust-line span.item{display:inline-flex; align-items:center; gap:6px;}
+  .dot{width:5px; height:5px; border-radius:50%; background:var(--amber-deep); display:inline-block;}
+
+  /* INVOICE CARD — signature element */
+  .invoice{
+    background:var(--panel); border:1px solid var(--line); border-radius:20px;
+    padding:28px 26px 34px; box-shadow:0 24px 48px -28px rgba(21,32,26,.28);
+    position:relative; transform:rotate(1.2deg);margin-top: 50px;
+  }
+  .invoice-head{display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1.5px dashed var(--line); padding-bottom:16px; margin-bottom:16px;}
+  .invoice-head .num{font-size:11px; letter-spacing:.08em; color:var(--ink-soft); text-transform:uppercase;}
+  .invoice-title{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px;}
+  .invoice-badge{background:var(--amber-bg); color:var(--amber-deep); font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; letter-spacing:.04em;}
+  .line-item{display:flex; justify-content:space-between; align-items:center; padding:8px 0; font-size:14.5px;}
+  .line-item .ck{color:var(--teal); font-weight:700; font-size:13px;}
+  .line-item .add{color:var(--ink-soft); font-size:13.5px; font-family:'Space Grotesk',sans-serif;}
+  .invoice-total{
+    display:flex; justify-content:space-between; align-items:baseline; margin-top:14px; padding-top:16px;
+    border-top:1.5px solid var(--ink);
+  }
+  .invoice-total .lbl{font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft);}
+  .invoice-total .price{font-size:28px; font-weight:700; color:var(--teal-deep);}
+  .installment-pill{
+    margin-top:18px; background:var(--teal); color:#fff; border-radius:14px; padding:12px 16px;
+    font-size:13px; display:flex; justify-content:space-between; align-items:center; font-weight:500;
+  }
+  .installment-pill b{font-family:'Space Grotesk',sans-serif; font-weight:700;}
+  .invoice::after{
+    content:""; position:absolute; left:24px; right:24px; bottom:-1px; height:10px;
+    background-image:radial-gradient(circle at 8px 0, transparent 7px, var(--paper) 7px);
+    background-size:16px 10px; background-repeat:repeat-x;
+  }
+
+  /* PROBLEM */
+  .problem-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:start;}
+  @media(max-width:840px){ .problem-grid{grid-template-columns:1fr;} }
+  .bullet-list{list-style:none; margin-top:22px; display:flex; flex-direction:column; gap:16px;}
+  .bullet-list li{display:flex; gap:12px; font-size:15.5px; color:var(--ink-soft);}
+  .bullet-list li::before{content:"—"; color:var(--coral); font-weight:700; flex-shrink:0;}
+  .compare{background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden;}
+  .compare-row{display:grid; grid-template-columns:1.3fr 1fr 1fr; font-size:13.5px;}
+  .compare-row > div{padding:13px 14px; border-bottom:1px solid var(--line);}
+  .compare-row:last-child > div{border-bottom:none;}
+  .compare-row.head{background:var(--ink); color:#fff; font-weight:600;}
+  .compare-row.head > div:nth-child(3){color:var(--amber);}
+  .compare-row:not(.head) > div:first-child{color:var(--ink-soft);}
+  .compare-row:not(.head) > div:nth-child(2){color:var(--ink-soft);}
+  .compare-row:not(.head) > div:nth-child(3){font-weight:600; color:var(--teal-deep);}
+
+  /* INCLUDED */
+  .page-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:32px;}
+  @media(max-width:840px){ .page-grid{grid-template-columns:repeat(2,1fr);} }
+  .page-card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px 18px;}
+  .page-card .idx{font-family:'Space Grotesk',sans-serif; color:var(--amber-deep); font-weight:700; font-size:13px; margin-bottom:10px;}
+  .page-card h3{font-size:16px; margin-bottom:6px;}
+  .page-card p{font-size:13.5px; color:var(--ink-soft);}
+  .feature-strip{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;}
+  @media(max-width:640px){ .feature-strip{grid-template-columns:1fr;} }
+  .feature-box{background:var(--teal-bg); border-radius:16px; padding:20px; display:flex; gap:14px; align-items:flex-start;}
+  .feature-box .ico{width:38px; height:38px; border-radius:10px; background:var(--teal); color:#fff; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0;}
+  .feature-box h4{font-size:15px; margin-bottom:4px;}
+  .feature-box p{font-size:13.5px; color:var(--ink-soft);}
+
+  /* ADVANTAGES */
+  .adv-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px;}
+  @media(max-width:860px){ .adv-grid{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:560px){ .adv-grid{grid-template-columns:1fr;} }
+  .adv-card{padding:22px 4px; border-top:2.5px solid var(--ink);}
+  .adv-card .num{font-size:13px; color:var(--amber-deep); font-weight:700; margin-bottom:10px; display:block;}
+  .adv-card h4{font-size:16px; margin-bottom:6px;}
+  .adv-card p{font-size:13.5px; color:var(--ink-soft);}
+
+  /* PRICING */
+  .price-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px;}
+  @media(max-width:720px){ .price-grid{grid-template-columns:1fr;} }
+  .price-card{background:var(--panel); border:1.5px solid var(--line); border-radius:18px; padding:28px 26px;}
+  .price-card.featured{border-color:var(--teal); position:relative;}
+  .price-card .tag{position:absolute; top:-13px; right:22px; background:var(--teal); color:#fff; font-size:11.5px; font-weight:700; padding:5px 12px; border-radius:999px;}
+  .price-card h3{font-size:15px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); font-weight:600; margin-bottom:8px;}
+  .price-card .amount{font-family:'Space Grotesk',sans-serif; font-size:38px; font-weight:700; margin-bottom:18px;}
+  .price-card .amount sub{font-size:14px; font-weight:500; color:var(--ink-soft);}
+  .price-card ul{list-style:none; display:flex; flex-direction:column; gap:10px;}
+  .price-card li{font-size:14px; display:flex; gap:9px; align-items:flex-start;}
+  .price-card li::before{content:"✓"; color:var(--teal); font-weight:700;}
+  .install-banner{
+    margin-top:24px; background:var(--amber-bg); border:1px dashed var(--amber-deep); border-radius:14px;
+    padding:16px 20px; font-size:14px; color:var(--amber-deep); display:flex; gap:12px; align-items:center;
+  }
+
+  /* DEMO */
+  .demo-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:32px;}
+  @media(max-width:860px){ .demo-grid{grid-template-columns:repeat(2,1fr);} }
+  .demo-card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px; transition:border-color .15s ease;}
+  .demo-card:hover{border-color:var(--teal);}
+  .demo-card .em{font-size:26px; margin-bottom:10px;}
+  .demo-card h4{font-size:15px; margin-bottom:14px;}
+  .demo-card a{font-size:13px; color:var(--teal-deep); font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:5px;}
+
+  /* FORM */
+  .form-section{background:var(--ink); color:#fff;}
+  .form-section .eyebrow{color:var(--amber);}
+  .form-section .eyebrow::before{background:var(--amber);}
+  .form-section p.lead{color:rgba(255,255,255,.68);}
+  .form-wrap{display:grid; grid-template-columns:.9fr 1.1fr; gap:52px; align-items:start; margin-top:12px;}
+  @media(max-width:860px){ .form-wrap{grid-template-columns:1fr; gap:32px;} }
+  .form-panel{background:#fff; color:var(--ink); border-radius:20px; padding:30px 28px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:13px; font-weight:600; margin-bottom:7px; color:var(--ink-soft);}
+  .field input, .field select, .field textarea{
+    width:100%; padding:12px 14px; border:1.5px solid var(--line); border-radius:10px;
+    font-family:inherit; font-size:14.5px; background:var(--paper); color:var(--ink);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
+  .field textarea{resize:vertical; min-height:80px;}
+  .form-note{font-size:12.5px; color:var(--ink-soft); margin-top:12px;}
+  .form-panel .btn-primary{width:100%; justify-content:center; padding:14px; font-size:15px; margin-top:6px;}
+  .side-points{display:flex; flex-direction:column; gap:20px;}
+  .side-point{display:flex; gap:14px;}
+  .side-point .ico{width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px;}
+  .side-point h4{font-size:15px; margin-bottom:3px;}
+  .side-point p{font-size:13.5px; color:rgba(255,255,255,.62);}
+
+  /* FOOTER */
+  footer{padding:40px 0; border-top:1px solid var(--line);}
+  .foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  .foot-row .brand-name{font-size:18px;}
+  footer p{font-size:13px; color:var(--ink-soft);}
+
+  [data-reveal]{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+  [data-reveal].in{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){ [data-reveal]{opacity:1; transform:none; transition:none;} html{scroll-behavior:auto;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="brand">
+        <span class="brand-name">AVIX</span>
+        <span class="brand-tag">Web Solutions</span>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="floating-actions">
+  <span class="lang-label" id="langLabel">Translate to</span>
+  <button id="langToggle" class="btn btn-secondary" type="button" aria-label="Switch language">English</button>
+</div>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow" data-i18n="heroEyebrow">Storepolio Website AVIX</span>
+      <h1 data-i18n="heroHeading">ඔයාගේ Business එකට<br>තමන්ගේම <span>Online Store</span> එකක්</h1>
+      <p class="lead" data-i18n="heroLead">Dhal Curry නැති Hotel එකක් වගේ තමයි, Website නැති Business එකක්. අද AVIX එකෙන් Rs. 12,000ට පටන් ගන්න Setup ලේසියි, බලාගන්නත් ලේසියි.</p>
+      <div class="hero-ctas">
+        <a href="#lead" class="btn btn-primary" data-i18n="heroInquiry">Inquiry Now</a>
+        <a href="#demo" class="btn btn-ghost" data-i18n="heroDemo">Demo Stores බලන්න</a>
+      </div>
+      <div class="trust-line">
+        <span class="item"><span class="dot"></span><span data-i18n="trustPage">Page 4ක්</span></span>
+        <span class="item"><span class="dot"></span><span data-i18n="trustCart">Cart Included</span></span>
+        <span class="item"><span class="dot"></span><span data-i18n="trustSetup">Setup ලේසි</span></span>
+      </div>
+    </div>
+
+    <div class="invoice" data-reveal>
+      <div class="invoice-head">
+        <div>
+          <div class="invoice-title">STOREPOLIO</div>
+          <div class="num">No. 001 · AVIX</div>
+        </div>
+        <span class="invoice-badge" data-i18n="invBadge">READY TO LAUNCH</span>
+      </div>
+      <div class="line-item"><span data-i18n="invLanding">Landing Page</span><span class="ck">✓</span></div>
+      <div class="line-item"><span data-i18n="invStore">Store Page + Cart</span><span class="ck">✓</span></div>
+      <div class="line-item"><span data-i18n="invAbout">About Page</span><span class="ck">✓</span></div>
+      <div class="line-item"><span data-i18n="invContact">Contact Page</span><span class="ck">✓</span></div>
+      <div class="line-item"><span data-i18n="invProducts">Products 10ක් (Free)</span><span class="ck">✓</span></div>
+      <div class="line-item"><span data-i18n="invDomain">Domain (Optional)</span><span class="add">+Rs. 3,000</span></div>
+      <div class="invoice-total">
+        <span class="lbl" data-i18n="invTotal">Total</span>
+        <span class="price">Rs. 12,000</span>
+      </div>
+      <div class="installment-pill">
+        <span data-i18n="invInstallLabel">මාස 3ක Installment</span>
+        <b data-i18n="invInstallAmount">Rs. 4,000 / මාසෙට</b>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="problem">
+  <div class="wrap problem-grid">
+    <div data-reveal>
+      <span class="eyebrow" data-i18n="problemEyebrow">ඇයි Website එකක්?</span>
+      <h2 data-i18n="problemH2">Facebook Page එකක් විතරක් ප්‍රමාණවත් ද?</h2>
+      <p class="lead" data-i18n="problemLead">Facebook Page එකෙන් Business එක Start කරන එක හොඳයි, හැබැයි ඒක විතරක් ප්‍රමාණවත් නෑ.</p>
+      <ul class="bullet-list">
+        <li data-i18n="problemB1">Client ලාට Products ඔක්කොම බලාගන්න අමාරුයි, Scroll කරගෙන යන්න ඕන</li>
+        <li data-i18n="problemB2">Business Details, Contact Info පැහැදිලිව පේන්නේ නෑ</li>
+        <li data-i18n="problemB3">ඕනම කෙනෙකුට Page එකක් හදන්න පුළුවන් නිසා Trust එක අඩුයි</li>
+        <li data-i18n="problemB4">Order එකක් Track කරගන්න System එකක් නෑ</li>
+      </ul>
+    </div>
+    <div class="compare" data-reveal>
+      <div class="compare-row head"><div data-i18n="cmpHFeature">Feature</div><div data-i18n="cmpHFb">Facebook Page</div><div data-i18n="cmpHStore">Storepolio</div></div>
+      <div class="compare-row"><div data-i18n="cmpR1L">වියදම</div><div data-i18n="cmpR1M">Free</div><div data-i18n="cmpR1R">Rs. 12,000</div></div>
+      <div class="compare-row"><div data-i18n="cmpR2L">Browse කරන එක</div><div data-i18n="cmpR2M">අමාරුයි</div><div data-i18n="cmpR2R">ලේසියි</div></div>
+      <div class="compare-row"><div data-i18n="cmpR3L">පේනුම</div><div data-i18n="cmpR3M">සාමාන්‍යයි</div><div data-i18n="cmpR3R">Professional</div></div>
+      <div class="compare-row"><div data-i18n="cmpR4L">Cart System</div><div data-i18n="cmpR4M">නෑ</div><div data-i18n="cmpR4R">තියෙනවා</div></div>
+      <div class="compare-row"><div data-i18n="cmpR5L">Order Alert</div><div data-i18n="cmpR5M">නෑ</div><div data-i18n="cmpR5R">Instant Message</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="included">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="incEyebrow">මොකක්ද ලැබෙන්නේ</span>
+    <h2 data-reveal data-i18n="incH2">Page 4ක Simple, Powerful Website එකක්</h2>
+    <div class="page-grid">
+      <div class="page-card" data-reveal><div class="idx">01</div><h3 data-i18n="pg1T">Landing</h3><p data-i18n="pg1D">ඔයාගේ Business එක Introduce කරන පළවෙනි Page එක.</p></div>
+      <div class="page-card" data-reveal><div class="idx">02</div><h3 data-i18n="pg2T">Store</h3><p data-i18n="pg2D">Products ඔක්කොම Display වෙනවා, Cart එකත් සමඟ.</p></div>
+      <div class="page-card" data-reveal><div class="idx">03</div><h3 data-i18n="pg3T">About</h3><p data-i18n="pg3D">ඔයාගේ Business Story එක Client ලාට කියන්න.</p></div>
+      <div class="page-card" data-reveal><div class="idx">04</div><h3 data-i18n="pg4T">Contact</h3><p data-i18n="pg4D">Client ලාට ඔයාව හොයාගන්න ලේසි කරන Page එක.</p></div>
+    </div>
+    <div class="feature-strip">
+      <div class="feature-box" data-reveal>
+        <div class="ico">🛒</div>
+        <div><h4 data-i18n="feat1T">Cart System Ready</h4><p data-i18n="feat1D">Customers ට Products කිහිපයක් Cart එකට දාලා එකපාරටම Order කරගන්න පුළුවන්.</p></div>
+      </div>
+      <div class="feature-box" data-reveal>
+        <div class="ico">💬</div>
+        <div><h4 data-i18n="feat2T">Buy Now → Instant Message</h4><p data-i18n="feat2D">Customer "Buy Now" Click කළ ගමන්ම, ඔයාට Message එකක් එනවා Order එක Confirm කරගන්න.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="whyEyebrow">ඇයි AVIX</span>
+    <h2 data-reveal data-i18n="whyH2">Website එකකින් ලැබෙන සැබෑ වාසි</h2>
+    <div class="adv-grid">
+      <div class="adv-card" data-reveal><span class="num">01</span><h4 data-i18n="adv1T">Market Price එකෙන් අඩකටත් අඩුයි</h4><p data-i18n="adv1D">සාමාන්‍ය E-commerce Website එකක් Rs. 65,000–70,000ක් යනවා. Storepolio එක Rs. 12,000ම විතරයි.</p></div>
+      <div class="adv-card" data-reveal><span class="num">02</span><h4 data-i18n="adv2T">Startup ලාට Perfect</h4><p data-i18n="adv2D">අඩු Budget එකකින් Business එක Digital කරගන්න පුළුවන් Small Business වලටත්, Startup ලාටත්.</p></div>
+      <div class="adv-card" data-reveal><span class="num">03</span><h4 data-i18n="adv3T">Client ලාට ලේසි Shopping</h4><p data-i18n="adv3D">Products ලේසියෙන් Browse කරලා, එකකට වඩා එකපාරටම Order කරගන්න පුළුවන් Sales වැඩි වෙනවා.</p></div>
+      <div class="adv-card" data-reveal><span class="num">04</span><h4 data-i18n="adv4T">Flexible Installment Plan</h4><p data-i18n="adv4D">මාස 3ක් ඇතුළත ගෙවලා ඉවර කරගන්න පුළුවන්. ඕන නැතුව ගියොත් Website එක Deactivate කරගන්නත් පුළුවන්.</p></div>
+      <div class="adv-card" data-reveal><span class="num">05</span><h4 data-i18n="adv5T">High-End Business Look</h4><p data-i18n="adv5D">Website එකක් තියෙන එක ලොකු Business එකක Sign එකක්. Client ලා ඔයාව Trust කරන්න පටන් ගන්නවා.</p></div>
+      <div class="adv-card" data-reveal><span class="num">06</span><h4 data-i18n="adv6T">Maintenance Cost එකක් නෑ</h4><p data-i18n="adv6D">වෙනත් E-commerce Sites වගේ Ongoing Charges ගැන Think කරන්න ඕන නෑ.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="priceEyebrow">Pricing</span>
+    <h2 data-reveal data-i18n="priceH2">සරළ, Transparent ගානක්</h2>
+    <p class="lead" data-i18n="priceLead">හංගපු Charges නෑ. ඔයා ගෙවන ගාන කලින්ම දන්නවා.</p>
+    <div class="price-grid">
+      <div class="price-card" data-reveal>
+        <h3 data-i18n="p1T">Website විතරක්</h3>
+        <div class="amount">Rs. 12,000</div>
+        <ul>
+          <li data-i18n="p1L1">Page 4ක් (Landing, Store, About, Contact)</li>
+          <li data-i18n="p1L2">Cart System Included</li>
+          <li data-i18n="p1L3">Buy Now → Instant Message</li>
+          <li data-i18n="p1L4">Products 10ක් Free</li>
+        </ul>
+      </div>
+      <div class="price-card featured" data-reveal>
+        <span class="tag" data-i18n="p2Tag">Most Popular</span>
+        <h3 data-i18n="p2T">Website + Domain</h3>
+        <div class="amount">Rs. 15,000</div>
+        <ul>
+          <li data-i18n="p2L1">Website Package එකේ සියල්ල</li>
+          <li data-i18n="p2L2">ඔයාගේම Domain Name එකක්</li>
+          <li data-i18n="p2L3">Professional, Brand කරගත් Look එකක්</li>
+          <li data-i18n="p2L4">මාස 3ක Installment සමඟ</li>
+        </ul>
+      </div>
+    </div>
+    <div class="install-banner" data-reveal>
+      <span>💡</span>
+      <span data-i18n="installBanner">Products 10ට වැඩිය ඕන නම්, එකකට <b>Rs. 150</b> විතරයි. එකපාරටම ගෙවන්න බැරි නම්, <b>මාස 3ක Installment Plan</b> එකකුත් තියෙනවා.</span>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="demoEyebrow">Live Demo</span>
+    <h2 data-reveal data-i18n="demoH2">අපි හදපු Websites බලන්න</h2>
+    <div class="real-client" data-reveal style="background:rgba(14,124,99,.05); border:1px solid rgba(14,124,99,.15); border-radius:18px; padding:24px; margin-bottom:24px;">
+      <h3 style="margin:0 0 10px;font-size:18px;" data-i18n="realClientH3">Real client project</h3>
+      <p style="margin:0 0 14px; color:var(--ink-soft);" data-i18n="realClientP">See our live client website built for CY International SL.</p>
+      <a href="https://www.cyinternationalsl.com/" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="realClientBtn">Visit Live Project</a>
+    </div>
+    <div class="demo-grid">
+      <div class="demo-card" data-reveal><div class="em">👟</div><h4 data-i18n="demo1T">Shoe Store</h4><a href="https://shoe.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a></div>
+      <div class="demo-card" data-reveal><div class="em">💻</div><h4 data-i18n="demo2T">Computer Store</h4><a href="https://computer.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a></div>
+      <div class="demo-card" data-reveal><div class="em">🎂</div><h4 data-i18n="demo3T">Cake Store</h4><a href="https://cake.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a></div>
+      <div class="demo-card" data-reveal><div class="em">👕</div><h4 data-i18n="demo4T">Clothing Store</h4><a href="https://clothing.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="lead" class="form-section">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="leadEyebrow">පටන් ගමු</span>
+    <h2 data-reveal data-i18n="leadH2">ඔයාගේ Details දාන්න, අපි Contact කරන්නම්</h2>
+    <p class="lead" data-reveal data-i18n="leadLead">Form එක පුරවලා Submit කරන්න අපිට ඔයාගේ Details යවන්න. අපි ඉක්මනට Contact කරනවා.</p>
+
+    <div class="form-wrap">
+      <div class="side-points" data-reveal>
+        <div class="side-point"><div class="ico">⚡</div><div><h4 data-i18n="sp1T">ඉක්මන් Response</h4><p data-i18n="sp1D">Business Hours තුළ පැය කිහිපයක් ඇතුළත අපි Reply කරනවා.</p></div></div>
+        <div class="side-point"><div class="ico">🔒</div><div><h4 data-i18n="sp2T">No Hidden Charges</h4><p data-i18n="sp2D">ඔයා දකින ගානම, ඔයා ගෙවන ගාන.</p></div></div>
+        <div class="side-point"><div class="ico">📆</div><div><h4 data-i18n="sp3T">Installment Friendly</h4><p data-i18n="sp3D">මාස 3ක් ඇතුළත ගෙවලා ඉවර කරගන්න පුළුවන්.</p></div></div>
+      </div>
+
+      <form class="form-panel" id="leadForm" data-reveal>
+        <div class="field">
+          <label for="fname" data-i18n="lblName">නම</label>
+          <input type="text" id="fname" data-i18n-placeholder="phName" placeholder="ඔයාගේ නම" required>
+        </div>
+        <div class="field">
+          <label for="fbiz" data-i18n="lblBiz">Business වර්ගය</label>
+          <input type="text" id="fbiz" data-i18n-placeholder="phBiz" placeholder="උදා: Clothing Store, Cake Shop" required>
+        </div>
+        <div class="field">
+          <label for="fphone" data-i18n="lblPhone">Contact Number</label>
+          <input type="tel" id="fphone" placeholder="07XXXXXXXX" required>
+        </div>
+        <div class="field">
+          <label for="fpkg" data-i18n="lblPkg">අවශ්‍ය Package</label>
+          <select id="fpkg">
+            <option data-i18n="optPkg1">Website විතරක් Rs. 12,000</option>
+            <option data-i18n="optPkg2">Website + Domain Rs. 15,000</option>
+            <option data-i18n="optPkg3">දන්නේ නෑ, කතා කරලා තීරණය කරමු</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fmsg" data-i18n="lblMsg">වෙනත් විස්තර (Optional)</label>
+          <textarea id="fmsg" data-i18n-placeholder="phMsg" placeholder="ඔයාගේ Business එක ගැන ටිකක් කියන්න..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" data-i18n="btnSubmit">Submit කරන්න →</button>
+        <p class="form-note" data-i18n="formNote">Submit කළාම Email එකෙන් ඔයාගේ Details අපිට යවනවා.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div class="brand">
+      <span class="brand-name">WEBASI</span>
+      <span class="brand-tag" data-i18n="footTag">Mother company of AVIX • webasi.co</span>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:10px; color:var(--ink-soft); font-size:13px;">
+      <div><span data-i18n="footContact">Contact:</span> <a href="tel:+94703799882">070 3799 882</a></div>
+      <div><span data-i18n="footEmail">Email:</span> <a href="mailto:info@webasi.co">info@webasi.co</a></div>
+      <div data-i18n="footLocation">Location: Matara, Sri Lanka</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;"><a href="https://lk.linkedin.com/company/webasi" target="_blank" rel="noopener">LinkedIn</a><a href="https://www.facebook.com/p/Webasi-100064881782171/?locale=cs_CZ" target="_blank" rel="noopener">Facebook</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var RESEND_RECEIVER = "info@webasi.co";
+  var currentLang = 'si'; // 'si' = original Sinhala/Singlish copy, 'en' = English
+
+  /* ---------------- TRANSLATIONS ---------------- */
+  var translations = {
+    si: {
+      heroEyebrow: 'Storepolio Website AVIX',
+      heroHeading: 'ඔයාගේ Business එකට<br>තමන්ගේම <span>Online Store</span> එකක්',
+      heroLead: 'Dhal Curry නැති Hotel එකක් වගේ තමයි, Website නැති Business එකක්. අද AVIX එකෙන් Rs. 12,000ට පටන් ගන්න Setup ලේසියි, බලාගන්නත් ලේසියි.',
+      heroInquiry: 'Inquiry Now',
+      heroDemo: 'Demo Stores බලන්න',
+      trustPage: 'Page 4ක්',
+      trustCart: 'Cart Included',
+      trustSetup: 'Setup ලේසි',
+
+      invBadge: 'READY TO LAUNCH',
+      invLanding: 'Landing Page',
+      invStore: 'Store Page + Cart',
+      invAbout: 'About Page',
+      invContact: 'Contact Page',
+      invProducts: 'Products 10ක් (Free)',
+      invDomain: 'Domain (Optional)',
+      invTotal: 'Total',
+      invInstallLabel: 'මාස 3ක Installment',
+      invInstallAmount: 'Rs. 4,000 / මාසෙට',
+
+      problemEyebrow: 'ඇයි Website එකක්?',
+      problemH2: 'Facebook Page එකක් විතරක් ප්‍රමාණවත් ද?',
+      problemLead: 'Facebook Page එකෙන් Business එක Start කරන එක හොඳයි, හැබැයි ඒක විතරක් ප්‍රමාණවත් නෑ.',
+      problemB1: 'Client ලාට Products ඔක්කොම බලාගන්න අමාරුයි, Scroll කරගෙන යන්න ඕන',
+      problemB2: 'Business Details, Contact Info පැහැදිලිව පේන්නේ නෑ',
+      problemB3: 'ඕනම කෙනෙකුට Page එකක් හදන්න පුළුවන් නිසා Trust එක අඩුයි',
+      problemB4: 'Order එකක් Track කරගන්න System එකක් නෑ',
+
+      cmpHFeature: 'Feature', cmpHFb: 'Facebook Page', cmpHStore: 'Storepolio',
+      cmpR1L: 'වියදම', cmpR1M: 'Free', cmpR1R: 'Rs. 12,000',
+      cmpR2L: 'Browse කරන එක', cmpR2M: 'අමාරුයි', cmpR2R: 'ලේසියි',
+      cmpR3L: 'පේනුම', cmpR3M: 'සාමාන්‍යයි', cmpR3R: 'Professional',
+      cmpR4L: 'Cart System', cmpR4M: 'නෑ', cmpR4R: 'තියෙනවා',
+      cmpR5L: 'Order Alert', cmpR5M: 'නෑ', cmpR5R: 'Instant Message',
+
+      incEyebrow: 'මොකක්ද ලැබෙන්නේ',
+      incH2: 'Page 4ක Simple, Powerful Website එකක්',
+      pg1T: 'Landing', pg1D: 'ඔයාගේ Business එක Introduce කරන පළවෙනි Page එක.',
+      pg2T: 'Store', pg2D: 'Products ඔක්කොම Display වෙනවා, Cart එකත් සමඟ.',
+      pg3T: 'About', pg3D: 'ඔයාගේ Business Story එක Client ලාට කියන්න.',
+      pg4T: 'Contact', pg4D: 'Client ලාට ඔයාව හොයාගන්න ලේසි කරන Page එක.',
+      feat1T: 'Cart System Ready', feat1D: 'Customers ට Products කිහිපයක් Cart එකට දාලා එකපාරටම Order කරගන්න පුළුවන්.',
+      feat2T: 'Buy Now → Instant Message', feat2D: 'Customer "Buy Now" Click කළ ගමන්ම, ඔයාට Message එකක් එනවා Order එක Confirm කරගන්න.',
+
+      whyEyebrow: 'ඇයි AVIX',
+      whyH2: 'Website එකකින් ලැබෙන සැබෑ වාසි',
+      adv1T: 'Market Price එකෙන් අඩකටත් අඩුයි', adv1D: 'සාමාන්‍ය E-commerce Website එකක් Rs. 65,000–70,000ක් යනවා. Storepolio එක Rs. 12,000ම විතරයි.',
+      adv2T: 'Startup ලාට Perfect', adv2D: 'අඩු Budget එකකින් Business එක Digital කරගන්න පුළුවන් Small Business වලටත්, Startup ලාටත්.',
+      adv3T: 'Client ලාට ලේසි Shopping', adv3D: 'Products ලේසියෙන් Browse කරලා, එකකට වඩා එකපාරටම Order කරගන්න පුළුවන් Sales වැඩි වෙනවා.',
+      adv4T: 'Flexible Installment Plan', adv4D: 'මාස 3ක් ඇතුළත ගෙවලා ඉවර කරගන්න පුළුවන්. ඕන නැතුව ගියොත් Website එක Deactivate කරගන්නත් පුළුවන්.',
+      adv5T: 'High-End Business Look', adv5D: 'Website එකක් තියෙන එක ලොකු Business එකක Sign එකක්. Client ලා ඔයාව Trust කරන්න පටන් ගන්නවා.',
+      adv6T: 'Maintenance Cost එකක් නෑ', adv6D: 'වෙනත් E-commerce Sites වගේ Ongoing Charges ගැන Think කරන්න ඕන නෑ.',
+
+      priceEyebrow: 'Pricing',
+      priceH2: 'සරළ, Transparent ගානක්',
+      priceLead: 'හංගපු Charges නෑ. ඔයා ගෙවන ගාන කලින්ම දන්නවා.',
+      p1T: 'Website විතරක්',
+      p1L1: 'Page 4ක් (Landing, Store, About, Contact)', p1L2: 'Cart System Included', p1L3: 'Buy Now → Instant Message', p1L4: 'Products 10ක් Free',
+      p2Tag: 'Most Popular', p2T: 'Website + Domain',
+      p2L1: 'Website Package එකේ සියල්ල', p2L2: 'ඔයාගේම Domain Name එකක්', p2L3: 'Professional, Brand කරගත් Look එකක්', p2L4: 'මාස 3ක Installment සමඟ',
+      installBanner: 'Products 10ට වැඩිය ඕන නම්, එකකට <b>Rs. 150</b> විතරයි. එකපාරටම ගෙවන්න බැරි නම්, <b>මාස 3ක Installment Plan</b> එකකුත් තියෙනවා.',
+
+      demoEyebrow: 'Live Demo',
+      demoH2: 'අපි හදපු Websites බලන්න',
+      realClientH3: 'Real client project',
+      realClientP: 'See our live client website built for CY International SL.',
+      realClientBtn: 'Visit Live Project',
+      demo1T: 'Shoe Store', demo2T: 'Computer Store', demo3T: 'Cake Store', demo4T: 'Clothing Store',
+      demoLink: 'Demo බලන්න →',
+
+      leadEyebrow: 'පටන් ගමු',
+      leadH2: 'ඔයාගේ Details දාන්න, අපි Contact කරන්නම්',
+      leadLead: 'Form එක පුරවලා Submit කරන්න අපිට ඔයාගේ Details යවන්න. අපි ඉක්මනට Contact කරනවා.',
+      sp1T: 'ඉක්මන් Response', sp1D: 'Business Hours තුළ පැය කිහිපයක් ඇතුළත අපි Reply කරනවා.',
+      sp2T: 'No Hidden Charges', sp2D: 'ඔයා දකින ගානම, ඔයා ගෙවන ගාන.',
+      sp3T: 'Installment Friendly', sp3D: 'මාස 3ක් ඇතුළත ගෙවලා ඉවර කරගන්න පුළුවන්.',
+
+      lblName: 'නම', phName: 'ඔයාගේ නම',
+      lblBiz: 'Business වර්ගය', phBiz: 'උදා: Clothing Store, Cake Shop',
+      lblPhone: 'Contact Number',
+      lblPkg: 'අවශ්‍ය Package',
+      optPkg1: 'Website විතරක් Rs. 12,000', optPkg2: 'Website + Domain Rs. 15,000', optPkg3: 'දන්නේ නෑ, කතා කරලා තීරණය කරමු',
+      lblMsg: 'වෙනත් විස්තර (Optional)', phMsg: 'ඔයාගේ Business එක ගැන ටිකක් කියන්න...',
+      btnSubmit: 'Submit කරන්න →',
+      btnSending: 'Sending...',
+      formNote: 'Submit කළාම Email එකෙන් ඔයාගේ Details අපිට යවනවා.',
+
+      footTag: 'Mother company of AVIX • webasi.co',
+      footContact: 'Contact:', footEmail: 'Email:', footLocation: 'Location: Matara, Sri Lanka',
+
+      alertSuccess: 'ඔබේ Request එක අපට එවලා තියෙනවා. අපි ඉක්මනටද Contact කරනවා.',
+      alertError: 'Request එක යවද්දී දෝෂයක් සිදු වුනා. නැවත උත්සාහ කරන්න.',
+      emailIntro: 'AVIX - Storepolio Website ගැන Interest එකක් තියෙනවා.',
+      emailName: 'නම', emailBiz: 'Business', emailPhone: 'Phone', emailPkg: 'Package', emailMsg: 'Message',
+      toggleBtn: 'English',
+      toggleLabel: 'Translate to'
+    },
+    en: {
+      heroEyebrow: 'Storepolio Website by AVIX',
+      heroHeading: 'Your business gets its own<br><span>online store</span>',
+      heroLead: 'A business without a website is like a hotel without dhal curry. Start today with AVIX for just Rs. 12,000 — easy setup, easy to manage.',
+      heroInquiry: 'Inquiry Now',
+      heroDemo: 'See Demo Stores',
+      trustPage: '4 pages included',
+      trustCart: 'Cart included',
+      trustSetup: 'Easy setup',
+
+      invBadge: 'READY TO LAUNCH',
+      invLanding: 'Landing Page',
+      invStore: 'Store Page + Cart',
+      invAbout: 'About Page',
+      invContact: 'Contact Page',
+      invProducts: '10 Products (Free)',
+      invDomain: 'Domain (Optional)',
+      invTotal: 'Total',
+      invInstallLabel: '3-Month Installment',
+      invInstallAmount: 'Rs. 4,000 / month',
+
+      problemEyebrow: 'Why a website?',
+      problemH2: 'Is a Facebook Page really enough?',
+      problemLead: 'Starting a business with a Facebook Page is a good first step, but it is not enough on its own.',
+      problemB1: 'It is hard for customers to browse all your products — they have to keep scrolling',
+      problemB2: 'Business details and contact info are not clearly visible',
+      problemB3: 'Anyone can create a page, so trust is low',
+      problemB4: 'There is no system to track orders',
+
+      cmpHFeature: 'Feature', cmpHFb: 'Facebook Page', cmpHStore: 'Storepolio',
+      cmpR1L: 'Cost', cmpR1M: 'Free', cmpR1R: 'Rs. 12,000',
+      cmpR2L: 'Browsing', cmpR2M: 'Difficult', cmpR2R: 'Easy',
+      cmpR3L: 'Look & feel', cmpR3M: 'Standard', cmpR3R: 'Professional',
+      cmpR4L: 'Cart system', cmpR4M: 'No', cmpR4R: 'Yes',
+      cmpR5L: 'Order alerts', cmpR5M: 'No', cmpR5R: 'Instant message',
+
+      incEyebrow: "What's included",
+      incH2: 'A simple, powerful 4-page website',
+      pg1T: 'Landing', pg1D: 'The first page that introduces your business.',
+      pg2T: 'Store', pg2D: 'All your products on display, with a built-in cart.',
+      pg3T: 'About', pg3D: 'Tell customers your business story.',
+      pg4T: 'Contact', pg4D: 'Makes it easy for customers to reach you.',
+      feat1T: 'Cart System Ready', feat1D: 'Customers can add several products to the cart and order everything at once.',
+      feat2T: 'Buy Now → Instant Message', feat2D: 'The moment a customer clicks "Buy Now," you get a message to confirm the order.',
+
+      whyEyebrow: 'Why AVIX',
+      whyH2: 'The real benefits of having a website',
+      adv1T: 'Less than half the market price', adv1D: 'A typical e-commerce website costs Rs. 65,000–70,000. Storepolio is only Rs. 12,000.',
+      adv2T: 'Perfect for startups', adv2D: 'Go digital on a small budget — great for small businesses and startups alike.',
+      adv3T: 'Easy shopping for customers', adv3D: 'Customers browse easily and order multiple items at once — boosting your sales.',
+      adv4T: 'Flexible installment plan', adv4D: 'Pay it off over 3 months. If it is no longer needed, you can deactivate the website too.',
+      adv5T: 'High-end business look', adv5D: 'Having a website is a sign of a serious business. Customers start to trust you.',
+      adv6T: 'No maintenance cost', adv6D: 'Unlike other e-commerce sites, you do not need to worry about ongoing charges.',
+
+      priceEyebrow: 'Pricing',
+      priceH2: 'Simple, transparent pricing',
+      priceLead: 'No hidden charges. You know the price upfront.',
+      p1T: 'Website Only',
+      p1L1: '4 pages (Landing, Store, About, Contact)', p1L2: 'Cart System Included', p1L3: 'Buy Now → Instant Message', p1L4: '10 Products Free',
+      p2Tag: 'Most Popular', p2T: 'Website + Domain',
+      p2L1: 'Everything in the Website package', p2L2: 'Your own domain name', p2L3: 'A professional, branded look', p2L4: '3-month installment option',
+      installBanner: 'Need more than 10 products? Just <b>Rs. 150</b> each. Cannot pay it all at once? There is a <b>3-month installment plan</b> too.',
+
+      demoEyebrow: 'Live Demo',
+      demoH2: 'See websites we have built',
+      realClientH3: 'Real client project',
+      realClientP: 'See our live client website built for CY International SL.',
+      realClientBtn: 'Visit Live Project',
+      demo1T: 'Shoe Store', demo2T: 'Computer Store', demo3T: 'Cake Store', demo4T: 'Clothing Store',
+      demoLink: 'View Demo →',
+
+      leadEyebrow: "Let's get started",
+      leadH2: "Share your details, we'll be in touch",
+      leadLead: "Fill out the form and submit it to send us your details. We'll contact you soon.",
+      sp1T: 'Fast response', sp1D: "We reply within a few hours during business hours.",
+      sp2T: 'No hidden charges', sp2D: 'What you see is what you pay.',
+      sp3T: 'Installment friendly', sp3D: 'You can pay it off within 3 months.',
+
+      lblName: 'Name', phName: 'Your name',
+      lblBiz: 'Business type', phBiz: 'e.g. Clothing Store, Cake Shop',
+      lblPhone: 'Contact Number',
+      lblPkg: 'Package needed',
+      optPkg1: 'Website Only Rs. 12,000', optPkg2: 'Website + Domain Rs. 15,000', optPkg3: "Not sure, let's talk",
+      lblMsg: 'Other details (Optional)', phMsg: 'Tell us a bit about your business...',
+      btnSubmit: 'Submit →',
+      btnSending: 'Sending...',
+      formNote: "Once submitted, your details are emailed to us.",
+
+      footTag: 'Mother company of AVIX • webasi.co',
+      footContact: 'Contact:', footEmail: 'Email:', footLocation: 'Location: Matara, Sri Lanka',
+
+      alertSuccess: "Your request has been sent to us. We'll be in touch soon.",
+      alertError: 'Something went wrong while sending your request. Please try again.',
+      emailIntro: 'There is interest in the AVIX Storepolio Website.',
+      emailName: 'Name', emailBiz: 'Business', emailPhone: 'Phone', emailPkg: 'Package', emailMsg: 'Message',
+      toggleBtn: 'සිංහල',
+      toggleLabel: 'මෙයට පරිවර්තනය කරන්න'
+    }
+  };
+
+  /* ---------------- APPLY LANGUAGE ---------------- */
+  function setLanguage(lang){
+    if(!translations[lang]){ return; }
+    currentLang = lang;
+    var dict = translations[lang];
+
+    document.querySelectorAll('[data-i18n]').forEach(function(node){
+      var key = node.getAttribute('data-i18n');
+      if(dict[key] !== undefined){ node.innerHTML = dict[key]; }
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(node){
+      var key = node.getAttribute('data-i18n-placeholder');
+      if(dict[key] !== undefined){ node.setAttribute('placeholder', dict[key]); }
+    });
+
+    document.documentElement.lang = (lang === 'en') ? 'en' : 'si';
+    langToggle.textContent = dict.toggleBtn;
+    langLabel.textContent = dict.toggleLabel;
+  }
+
+  var langToggle = document.getElementById('langToggle');
+  var langLabel = document.getElementById('langLabel');
+  langToggle.addEventListener('click', function(){
+    setLanguage(currentLang === 'si' ? 'en' : 'si');
+  });
+
+  /* ---------------- FORM SUBMIT ---------------- */
+  var form = document.getElementById('leadForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    var dict = translations[currentLang];
+    var name = document.getElementById('fname').value.trim();
+    var biz = document.getElementById('fbiz').value.trim();
+    var phone = document.getElementById('fphone').value.trim();
+    var pkg = document.getElementById('fpkg').value;
+    var msg = document.getElementById('fmsg').value.trim();
+
+    var emailText = dict.emailIntro + "\n\n";
+    emailText += dict.emailName + ": " + name + "\n";
+    emailText += dict.emailBiz + ": " + biz + "\n";
+    emailText += dict.emailPhone + ": " + phone + "\n";
+    emailText += dict.emailPkg + ": " + pkg + "\n";
+    if(msg){ emailText += dict.emailMsg + ": " + msg + "\n"; }
+
+    var emailData = {
+      from: "AVIX <info@webasi.co>",
+      to: [RESEND_RECEIVER],
+      subject: "New AVIX Website Inquiry from " + name,
+      text: emailText
+    };
+
+    var submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = dict.btnSending;
+
+    fetch('/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(emailData)
+    })
+    .then(function(response){
+      if(!response.ok){
+        return response.text().then(function(body){ throw new Error(body || response.statusText); });
+      }
+      return response.json();
+    })
+    .then(function(){
+      alert(translations[currentLang].alertSuccess);
+      form.reset();
+    })
+    .catch(function(error){
+      console.error('Send email error:', error);
+      alert(translations[currentLang].alertError);
+    })
+    .finally(function(){
+      submitButton.disabled = false;
+      submitButton.textContent = translations[currentLang].btnSubmit;
+    });
+  });
+
+  /* ---------------- REVEAL ON SCROLL ---------------- */
+  var revealEls = document.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* Initialize in Sinhala (matches the markup already in the page) */
+  setLanguage('si');
+</script>
+
+</body>
+</html>
