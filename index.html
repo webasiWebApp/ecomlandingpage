@@ -170,8 +170,10 @@
   /* DEMO */
   .demo-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:32px;}
   @media(max-width:860px){ .demo-grid{grid-template-columns:repeat(2,1fr);} }
-  .demo-card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px; transition:border-color .15s ease;}
+  .demo-card{background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden; transition:border-color .15s ease;}
   .demo-card:hover{border-color:var(--teal);}
+  .demo-card img{width:100%; display:block; object-fit:cover; aspect-ratio:16/10;}
+  .demo-card .card-body{padding:18px 16px 20px;}
   .demo-card .em{font-size:26px; margin-bottom:10px;}
   .demo-card h4{font-size:15px; margin-bottom:14px;}
   .demo-card a{font-size:13px; color:var(--teal-deep); font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:5px;}
@@ -379,10 +381,38 @@
       <a href="https://www.cyinternationalsl.com/" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="realClientBtn">Visit Live Project</a>
     </div>
     <div class="demo-grid">
-      <div class="demo-card" data-reveal><div class="em">👟</div><h4 data-i18n="demo1T">Shoe Store</h4><a href="https://shoe.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a></div>
-      <div class="demo-card" data-reveal><div class="em">💻</div><h4 data-i18n="demo2T">Computer Store</h4><a href="https://computer.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a></div>
-      <div class="demo-card" data-reveal><div class="em">🎂</div><h4 data-i18n="demo3T">Cake Store</h4><a href="https://cake.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a></div>
-      <div class="demo-card" data-reveal><div class="em">👕</div><h4 data-i18n="demo4T">Clothing Store</h4><a href="https://clothing.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a></div>
+      <div class="demo-card" data-reveal>
+        <img src="images/shoe.png" alt="Shoe Store demo preview">
+        <div class="card-body">
+          <div class="em">👟</div>
+          <h4 data-i18n="demo1T">Shoe Store</h4>
+          <a href="https://shoe.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a>
+        </div>
+      </div>
+      <div class="demo-card" data-reveal>
+        <img src="images/tech.png" alt="Computer Store demo preview">
+        <div class="card-body">
+          <div class="em">💻</div>
+          <h4 data-i18n="demo2T">Computer Store</h4>
+          <a href="https://computer.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a>
+        </div>
+      </div>
+      <div class="demo-card" data-reveal>
+        <img src="images/cake.png" alt="Cake Store demo preview">
+        <div class="card-body">
+          <div class="em">🎂</div>
+          <h4 data-i18n="demo3T">Cake Store</h4>
+          <a href="https://cake.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a>
+        </div>
+      </div>
+      <div class="demo-card" data-reveal>
+        <img src="images/cloth.png" alt="Clothing Store demo preview">
+        <div class="card-body">
+          <div class="em">👕</div>
+          <h4 data-i18n="demo4T">Clothing Store</h4>
+          <a href="https://clothing.infoavixonline.workers.dev/" target="_blank" rel="noopener" data-i18n="demoLink">Demo බලන්න →</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -707,6 +737,16 @@
     var submitButton = form.querySelector('button[type="submit"]');
     submitButton.disabled = true;
     submitButton.textContent = dict.btnSending;
+
+    // Open WhatsApp (web or app) with a prefilled message to the owner number
+    try {
+      var waNumber = '94703799882'; // country code +94, without +
+      var waText = emailText;
+      var waUrl = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(waText);
+      window.open(waUrl, '_blank');
+    } catch (waErr) {
+      console.error('WhatsApp open error:', waErr);
+    }
 
     fetch('/send-email', {
       method: 'POST',
