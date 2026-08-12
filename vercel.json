@@ -2,29 +2,5 @@
   "buildCommand": "npm install",
   "devCommand": "node server.js",
   "installCommand": "npm install",
-  "framework": "express",
-  "env": {
-    "RESEND_API_KEY": {
-      "description": "Resend API Key for sending emails",
-      "required": true
-    },
-    "NEXT_PUBLIC_RECEIVER_EMAIL": {
-      "description": "Email address to receive form submissions",
-      "required": true
-    },
-    "NEXT_PUBLIC_WHATSAPP_NUMBER": {
-      "description": "WhatsApp number for contact",
-      "required": true
-    },
-    "PORT": {
-      "description": "Port for the server",
-      "required": false,
-      "default": "3000"
-    }
-  },
-  "functions": {
-    "server.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  "framework": "express"
 }
