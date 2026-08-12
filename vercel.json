@@ -1,0 +1,17 @@
+{
+  "buildCommand": "npm install",
+  "devCommand": "node server.js",
+  "installCommand": "npm install",
+  "framework": "express",
+  "env": [
+    "RESEND_API_KEY",
+    "NEXT_PUBLIC_RECEIVER_EMAIL",
+    "NEXT_PUBLIC_WHATSAPP_NUMBER",
+    "PORT"
+  ],
+  "functions": {
+    "server.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
+}

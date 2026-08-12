@@ -1,0 +1,20 @@
+{
+  "name": "avix-landing-form",
+  "version": "1.0.0",
+  "description": "AVIX Landing Page with Email Form Submission",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["form", "resend", "email"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "resend": "^2.0.0"
+  }
+}

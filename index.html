@@ -203,7 +203,39 @@
   .field input:focus, .field select:focus, .field textarea:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
   .field textarea{resize:vertical; min-height:80px;}
   .form-note{font-size:12.5px; color:var(--ink-soft); margin-top:12px;}
+  .form-message{padding:14px; border-radius:10px; margin-bottom:16px; font-size:14px; display:flex; align-items:center; gap:10px;}
+  .form-message.success{background:#DFF0EA; color:#0A5C49; border-left:4px solid #0E7C63;}
+  .form-message.error{background:#FFE5E0; color:#B84C3E; border-left:4px solid #D9553E;}
+  .form-message::before{content:""; width:20px; height:20px; flex-shrink:0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;}
+  .form-message.success::before{content:"✓"; background:#0E7C63; color:#fff;}
+  .form-message.error::before{content:"✕"; background:#D9553E; color:#fff;}
   .form-panel .btn-primary{width:100%; justify-content:center; padding:14px; font-size:15px; margin-top:6px;}
+  .form-panel .btn-primary:disabled{opacity:.6; cursor:not-allowed;}
+  
+  /* SUCCESS MESSAGE */
+  .success-panel{
+    background:var(--panel); color:var(--ink); border-radius:20px; padding:40px 30px;
+    text-align:center; animation:slideUp .5s ease;
+  }
+  @keyframes slideUp{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .success-content{display:flex; flex-direction:column; align-items:center; gap:20px;}
+  .success-icon{
+    width:80px; height:80px; border-radius:50%;
+    background:linear-gradient(135deg, #0E7C63, #0A5C49);
+    color:#fff; font-size:48px; display:flex; align-items:center; justify-content:center;
+    font-weight:700; animation:popIn .6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes popIn{
+    0%{transform:scale(0);}
+    50%{transform:scale(1.1);}
+    100%{transform:scale(1);}
+  }
+  .success-title{font-size:24px; font-weight:700; color:var(--teal-deep); margin:0;}
+  .success-text{font-size:15px; color:var(--ink-soft); margin:0; max-width:500px;}
+  .success-panel .btn-primary{margin-top:10px;}
   .side-points{display:flex; flex-direction:column; gap:20px;}
   .side-point{display:flex; gap:14px;}
   .side-point .ico{width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px;}
@@ -452,6 +484,10 @@
           <input type="tel" id="fphone" placeholder="07XXXXXXXX" required>
         </div>
         <div class="field">
+          <label for="fwhatsapp" data-i18n="lblWhatsApp">WhatsApp Number</label>
+          <input type="tel" id="fwhatsapp" placeholder="07XXXXXXXX (same as above or different)" required>
+        </div>
+        <div class="field">
           <label for="fpkg" data-i18n="lblPkg">අවශ්‍ය Package</label>
           <select id="fpkg">
             <option data-i18n="optPkg1">Website විතරක් Rs. 12,000</option>
@@ -463,9 +499,19 @@
           <label for="fmsg" data-i18n="lblMsg">වෙනත් විස්තර (Optional)</label>
           <textarea id="fmsg" data-i18n-placeholder="phMsg" placeholder="ඔයාගේ Business එක ගැන ටිකක් කියන්න..."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" data-i18n="btnSubmit">Submit කරන්න →</button>
+        <div id="formMessage" class="form-message" style="display:none;"></div>
+        <button type="submit" class="btn btn-primary" id="submitBtn" data-i18n="btnSubmit">Submit කරන්න →</button>
         <p class="form-note" data-i18n="formNote">Submit කළාම Email එකෙන් ඔයාගේ Details අපිට යවනවා.</p>
       </form>
+
+      <div id="successMessage" class="success-panel" style="display:none;" data-reveal>
+        <div class="success-content">
+          <div class="success-icon">✓</div>
+          <h3 class="success-title" data-i18n="successTitle">ඔබේ Request එක ශක්තිමත් විය!</h3>
+          <p class="success-text" data-i18n="successText">ඔබේ විස්තර අපිට එසිඳ ගිය තුරුවා. අපි ඉක්මනටම ඔබට Contact කරනවා.</p>
+          <button type="button" class="btn btn-primary" id="newFormBtn" data-i18n="successNewForm">නව Inquiry එකක් දැමුවන්න</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -486,7 +532,6 @@
 </footer>
 
 <script>
-  var RESEND_RECEIVER = "info@webasi.co";
   var currentLang = 'si'; // 'si' = original Sinhala/Singlish copy, 'en' = English
 
   /* ---------------- TRANSLATIONS ---------------- */
@@ -584,6 +629,9 @@
 
       alertSuccess: 'ඔබේ Request එක අපට එවලා තියෙනවා. අපි ඉක්මනටද Contact කරනවා.',
       alertError: 'Request එක යවද්දී දෝෂයක් සිදු වුනා. නැවත උත්සාහ කරන්න.',
+      successTitle: 'ඔබේ Request එක ශක්තිමත් විය!',
+      successText: 'ඔබේ විස්තර අපිට එසිඳ ගිය තුරුවා. අපි ඉක්මනටම ඔබට Contact කරනවා.',
+      successNewForm: 'නව Inquiry එකක් දැමුවන්න',
       emailIntro: 'AVIX - Storepolio Website ගැන Interest එකක් තියෙනවා.',
       emailName: 'නම', emailBiz: 'Business', emailPhone: 'Phone', emailPkg: 'Package', emailMsg: 'Message',
       toggleBtn: 'English',
@@ -682,6 +730,9 @@
 
       alertSuccess: "Your request has been sent to us. We'll be in touch soon.",
       alertError: 'Something went wrong while sending your request. Please try again.',
+      successTitle: "Your request has been sent successfully!",
+      successText: "Your details have been received by us. We'll contact you very soon.",
+      successNewForm: "Submit Another Inquiry",
       emailIntro: 'There is interest in the AVIX Storepolio Website.',
       emailName: 'Name', emailBiz: 'Business', emailPhone: 'Phone', emailPkg: 'Package', emailMsg: 'Message',
       toggleBtn: 'සිංහල',
@@ -716,71 +767,113 @@
     setLanguage(currentLang === 'si' ? 'en' : 'si');
   });
 
-  /* ---------------- FORM SUBMIT ---------------- */
+  /* ---------------- FORM SUBMIT WITH RESEND API ---------------- */
   var form = document.getElementById('leadForm');
-  form.addEventListener('submit', function(e){
+  var messageDiv = document.getElementById('formMessage');
+  var submitBtn = form.querySelector('button[type="submit"]');
+
+  function showMessage(text, type) {
+    messageDiv.textContent = text;
+    messageDiv.className = 'form-message ' + type;
+    messageDiv.style.display = 'flex';
+  }
+
+  function clearMessage() {
+    messageDiv.style.display = 'none';
+    messageDiv.textContent = '';
+    messageDiv.className = 'form-message';
+  }
+
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
+    clearMessage();
 
-    var dict = translations[currentLang];
-    var name = document.getElementById('fname').value.trim();
-    var biz = document.getElementById('fbiz').value.trim();
-    var phone = document.getElementById('fphone').value.trim();
-    var pkg = document.getElementById('fpkg').value;
-    var msg = document.getElementById('fmsg').value.trim();
+    const dict = translations[currentLang];
+    const name = document.getElementById('fname').value.trim();
+    const business = document.getElementById('fbiz').value.trim();
+    const phone = document.getElementById('fphone').value.trim();
+    const whatsapp = document.getElementById('fwhatsapp').value.trim();
+    const pkg = document.getElementById('fpkg').value;
+    const message = document.getElementById('fmsg').value.trim();
 
-    var emailText = dict.emailIntro + "\n\n";
-    emailText += dict.emailName + ": " + name + "\n";
-    emailText += dict.emailBiz + ": " + biz + "\n";
-    emailText += dict.emailPhone + ": " + phone + "\n";
-    emailText += dict.emailPkg + ": " + pkg + "\n";
-    if(msg){ emailText += dict.emailMsg + ": " + msg + "\n"; }
-
-    var emailData = {
-      from: "AVIX <info@webasi.co>",
-      to: [RESEND_RECEIVER],
-      subject: "New AVIX Website Inquiry from " + name,
-      text: emailText
-    };
-
-    var submitButton = form.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
-    submitButton.textContent = dict.btnSending;
-
-    // Open WhatsApp (web or app) with a prefilled message to the owner number
-    try {
-      var waNumber = '94703799882'; // country code +94, without +
-      var waText = emailText;
-      var waUrl = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(waText);
-      window.open(waUrl, '_blank');
-    } catch (waErr) {
-      console.error('WhatsApp open error:', waErr);
+    // Basic validation
+    if (!name || !business || !phone || !whatsapp || !pkg) {
+      showMessage('Please fill in all required fields', 'error');
+      return;
     }
 
-    fetch('/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(emailData)
-    })
-    .then(function(response){
-      if(!response.ok){
-        return response.text().then(function(body){ throw new Error(body || response.statusText); });
+    // Disable submit button
+    submitBtn.disabled = true;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = dict.btnSending || 'Sending...';
+
+    try {
+      const response = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          business,
+          phone,
+          whatsapp,
+          package: pkg,
+          message
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to submit form');
       }
-      return response.json();
-    })
-    .then(function(){
-      alert(translations[currentLang].alertSuccess);
-      form.reset();
-    })
-    .catch(function(error){
-      console.error('Send email error:', error);
-      alert(translations[currentLang].alertError);
-    })
-    .finally(function(){
-      submitButton.disabled = false;
-      submitButton.textContent = translations[currentLang].btnSubmit;
-    });
+
+      // Success - Hide form, show success panel
+      form.style.display = 'none';
+      const successPanel = document.getElementById('successMessage');
+      successPanel.style.display = 'block';
+      successPanel.classList.add('in');
+      clearMessage();
+
+      // Optional: Open WhatsApp for immediate contact
+      try {
+        const waNumber = whatsapp.replace(/\D/g, '');
+        const cleanNumber = waNumber.startsWith('94') ? waNumber : '94' + waNumber;
+        const waUrl = `https://wa.me/${cleanNumber}`;
+        // Optionally open WhatsApp (commented out by default)
+        // window.open(waUrl, '_blank');
+      } catch (err) {
+        console.warn('WhatsApp link error:', err);
+      }
+
+    } catch (error) {
+      console.error('Form submission error:', error);
+      showMessage(error.message || (dict.alertError || 'An error occurred. Please try again.'), 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  });
+
+  // Add translations for WhatsApp field
+  if (!translations.si.lblWhatsApp) {
+    translations.si.lblWhatsApp = 'WhatsApp Number';
+  }
+  if (!translations.en.lblWhatsApp) {
+    translations.en.lblWhatsApp = 'WhatsApp Number';
+  }
+
+  // Handle "Submit Another Inquiry" button
+  var newFormBtn = document.getElementById('newFormBtn');
+  newFormBtn.addEventListener('click', function() {
+    const successPanel = document.getElementById('successMessage');
+    successPanel.style.display = 'none';
+    form.style.display = 'block';
+    form.reset();
+    clearMessage();
+    // Scroll to form
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   /* ---------------- REVEAL ON SCROLL ---------------- */
