@@ -166,10 +166,17 @@
   .price-card .tag{position:absolute; top:-13px; right:22px; background:var(--teal); color:#fff; font-size:11.5px; font-weight:700; padding:5px 12px; border-radius:999px;}
   .price-card h3{font-size:15px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); font-weight:600; margin-bottom:8px;}
   .price-card .amount{font-family:'Space Grotesk',sans-serif; font-size:38px; font-weight:700; margin-bottom:18px;}
+  .price-card .amount-row{display:flex; flex-direction:column; gap:6px; margin-bottom:18px;}
+  .price-card .old-price{font-size:18px; color:var(--ink-soft); text-decoration:line-through; opacity:.7; font-weight:600;}
+  .price-card .new-price{font-family:'Space Grotesk',sans-serif; font-size:38px; font-weight:700; line-height:1.1;}
   .price-card .amount sub{font-size:14px; font-weight:500; color:var(--ink-soft);}
   .price-card ul{list-style:none; display:flex; flex-direction:column; gap:10px;}
   .price-card li{font-size:14px; display:flex; gap:9px; align-items:flex-start;}
   .price-card li::before{content:"✓"; color:var(--teal); font-weight:700;}
+  .special-banner{
+    margin-top:24px; background:var(--amber-bg); border:1px dashed var(--amber-deep); border-radius:14px;
+    padding:16px 20px; font-size:14px; color:var(--amber-deep); display:flex; gap:12px; align-items:center; font-weight:600;
+  }
   .install-banner{
     margin-top:24px; background:var(--amber-bg); border:1px dashed var(--amber-deep); border-radius:14px;
     padding:16px 20px; font-size:14px; color:var(--amber-deep); display:flex; gap:12px; align-items:center;
@@ -276,7 +283,7 @@
     <div>
       <span class="eyebrow" data-i18n="heroEyebrow">Storepolio Website AVIX</span>
       <h1 data-i18n="heroHeading">ඔයාගේ Business එකට<br>තමන්ගේම <span>Online Store</span> එකක්</h1>
-      <p class="lead" data-i18n="heroLead">Dhal Curry නැති Hotel එකක් වගේ තමයි, Website නැති Business එකක්. අද AVIX එකෙන් Rs. 12,000ට පටන් ගන්න Setup ලේසියි, බලාගන්නත් ලේසියි.</p>
+      <p class="lead" data-i18n="heroLead">Dhal Curry නැති Hotel එකක් වගේ තමයි, Website නැති Business එකක්. අද AVIX එකෙන් Rs. 5,000ට පටන් ගන්න — Special Discount එක this month ඉවර වෙනවා. Setup ලේසියි, බලාගන්නත් ලේසියි.</p>
       <div class="hero-ctas">
         <a href="#lead" class="btn btn-primary" data-i18n="heroInquiry">Inquiry Now</a>
         <a href="#demo" class="btn btn-ghost" data-i18n="heroDemo">Demo Stores බලන්න</a>
@@ -304,11 +311,11 @@
       <div class="line-item"><span data-i18n="invDomain">Domain (Optional)</span><span class="add">+Rs. 3,000</span></div>
       <div class="invoice-total">
         <span class="lbl" data-i18n="invTotal">Total</span>
-        <span class="price">Rs. 12,000</span>
+        <span class="price">Rs. 5,000</span>
       </div>
       <div class="installment-pill">
-        <span data-i18n="invInstallLabel">මාස 3ක Installment</span>
-        <b data-i18n="invInstallAmount">Rs. 4,000 / මාසෙට</b>
+        <span data-i18n="invInstallLabel">Special Discount</span>
+        <b data-i18n="invInstallAmount">Ends this month</b>
       </div>
     </div>
   </div>
@@ -380,11 +387,14 @@
   <div class="wrap">
     <span class="eyebrow" data-i18n="priceEyebrow">Pricing</span>
     <h2 data-reveal data-i18n="priceH2">සරළ, Transparent ගානක්</h2>
-    <p class="lead" data-i18n="priceLead">හංගපු Charges නෑ. ඔයා ගෙවන ගාන කලින්ම දන්නවා.</p>
+    <p class="lead" data-i18n="priceLead">හංගපු Charges නෑ. ඔයා ගෙවන ගාන කලින්ම දන්නවා. Special Discount එක this month ඉවර වෙනවා.</p>
     <div class="price-grid">
       <div class="price-card" data-reveal>
         <h3 data-i18n="p1T">Website විතරක්</h3>
-        <div class="amount">Rs. 12,000</div>
+        <div class="amount-row">
+          <div class="old-price">Rs. 12,000</div>
+          <div class="new-price">Rs. 5,000</div>
+        </div>
         <ul>
           <li data-i18n="p1L1">Page 4ක් (Landing, Store, About, Contact)</li>
           <li data-i18n="p1L2">Cart System Included</li>
@@ -393,9 +403,12 @@
         </ul>
       </div>
       <div class="price-card featured" data-reveal>
-        <span class="tag" data-i18n="p2Tag">Most Popular</span>
+        <span class="tag" data-i18n="p2Tag">Special Discount</span>
         <h3 data-i18n="p2T">Website + Domain</h3>
-        <div class="amount">Rs. 15,000</div>
+        <div class="amount-row">
+          <div class="old-price">Rs. 15,000</div>
+          <div class="new-price">Rs. 10,000</div>
+        </div>
         <ul>
           <li data-i18n="p2L1">Website Package එකේ සියල්ල</li>
           <li data-i18n="p2L2">ඔයාගේම Domain Name එකක්</li>
@@ -403,6 +416,10 @@
           <li data-i18n="p2L4">මාස 3ක Installment සමඟ</li>
         </ul>
       </div>
+    </div>
+    <div class="special-banner" data-reveal>
+      <span>🔥</span>
+      <span>Special Discount: Rs. 12,000 → Rs. 5,000 | Rs. 15,000 → Rs. 10,000. Offer valid until end of this month.</span>
     </div>
     <div class="install-banner" data-reveal>
       <span>💡</span>
@@ -566,7 +583,7 @@
       problemB4: 'Order එකක් Track කරගන්න System එකක් නෑ',
 
       cmpHFeature: 'Feature', cmpHFb: 'Facebook Page', cmpHStore: 'Storepolio',
-      cmpR1L: 'වියදම', cmpR1M: 'Free', cmpR1R: 'Rs. 12,000',
+      cmpR1L: 'වියදම', cmpR1M: 'Free', cmpR1R: 'Rs. 5,000',
       cmpR2L: 'Browse කරන එක', cmpR2M: 'අමාරුයි', cmpR2R: 'ලේසියි',
       cmpR3L: 'පේනුම', cmpR3M: 'සාමාන්‍යයි', cmpR3R: 'Professional',
       cmpR4L: 'Cart System', cmpR4M: 'නෑ', cmpR4R: 'තියෙනවා',
@@ -583,7 +600,7 @@
 
       whyEyebrow: 'ඇයි AVIX',
       whyH2: 'Website එකකින් ලැබෙන සැබෑ වාසි',
-      adv1T: 'Market Price එකෙන් අඩකටත් අඩුයි', adv1D: 'සාමාන්‍ය E-commerce Website එකක් Rs. 65,000–70,000ක් යනවා. Storepolio එක Rs. 12,000ම විතරයි.',
+      adv1T: 'Market Price එකෙන් අඩකටත් අඩුයි', adv1D: 'සාමාන්‍ය E-commerce Website එකක් Rs. 65,000–70,000ක් යනවා. Storepolio එක දැන් Rs. 5,000ට පටන් ගනී.',
       adv2T: 'Startup ලාට Perfect', adv2D: 'අඩු Budget එකකින් Business එක Digital කරගන්න පුළුවන් Small Business වලටත්, Startup ලාටත්.',
       adv3T: 'Client ලාට ලේසි Shopping', adv3D: 'Products ලේසියෙන් Browse කරලා, එකකට වඩා එකපාරටම Order කරගන්න පුළුවන් Sales වැඩි වෙනවා.',
       adv4T: 'Flexible Installment Plan', adv4D: 'මාස 3ක් ඇතුළත ගෙවලා ඉවර කරගන්න පුළුවන්. ඕන නැතුව ගියොත් Website එක Deactivate කරගන්නත් පුළුවන්.',
@@ -592,10 +609,10 @@
 
       priceEyebrow: 'Pricing',
       priceH2: 'සරළ, Transparent ගානක්',
-      priceLead: 'හංගපු Charges නෑ. ඔයා ගෙවන ගාන කලින්ම දන්නවා.',
+      priceLead: 'හංගපු Charges නෑ. ඔයා ගෙවන ගාන කලින්ම දන්නවා. Special Discount එක this month ඉවර වෙනවා.',
       p1T: 'Website විතරක්',
       p1L1: 'Page 4ක් (Landing, Store, About, Contact)', p1L2: 'Cart System Included', p1L3: 'Buy Now → Instant Message', p1L4: 'Products 10ක් Free',
-      p2Tag: 'Most Popular', p2T: 'Website + Domain',
+      p2Tag: 'Special Discount', p2T: 'Website + Domain',
       p2L1: 'Website Package එකේ සියල්ල', p2L2: 'ඔයාගේම Domain Name එකක්', p2L3: 'Professional, Brand කරගත් Look එකක්', p2L4: 'මාස 3ක Installment සමඟ',
       installBanner: 'Products 10ට වැඩිය ඕන නම්, එකකට <b>Rs. 150</b> විතරයි. එකපාරටම ගෙවන්න බැරි නම්, <b>මාස 3ක Installment Plan</b> එකකුත් තියෙනවා.',
 
@@ -640,7 +657,7 @@
     en: {
       heroEyebrow: 'Storepolio Website by AVIX',
       heroHeading: 'Your business gets its own<br><span>online store</span>',
-      heroLead: 'A business without a website is like a hotel without dhal curry. Start today with AVIX for just Rs. 12,000 — easy setup, easy to manage.',
+      heroLead: 'A business without a website is like a hotel without dhal curry. Start today with AVIX from just Rs. 5,000 — this month-end special discount is running out soon.',
       heroInquiry: 'Inquiry Now',
       heroDemo: 'See Demo Stores',
       trustPage: '4 pages included',
@@ -667,7 +684,7 @@
       problemB4: 'There is no system to track orders',
 
       cmpHFeature: 'Feature', cmpHFb: 'Facebook Page', cmpHStore: 'Storepolio',
-      cmpR1L: 'Cost', cmpR1M: 'Free', cmpR1R: 'Rs. 12,000',
+      cmpR1L: 'Cost', cmpR1M: 'Free', cmpR1R: 'Rs. 5,000',
       cmpR2L: 'Browsing', cmpR2M: 'Difficult', cmpR2R: 'Easy',
       cmpR3L: 'Look & feel', cmpR3M: 'Standard', cmpR3R: 'Professional',
       cmpR4L: 'Cart system', cmpR4M: 'No', cmpR4R: 'Yes',
@@ -684,7 +701,7 @@
 
       whyEyebrow: 'Why AVIX',
       whyH2: 'The real benefits of having a website',
-      adv1T: 'Less than half the market price', adv1D: 'A typical e-commerce website costs Rs. 65,000–70,000. Storepolio is only Rs. 12,000.',
+      adv1T: 'Less than half the market price', adv1D: 'A typical e-commerce website costs Rs. 65,000–70,000. Storepolio starts at Rs. 5,000 this month.',
       adv2T: 'Perfect for startups', adv2D: 'Go digital on a small budget — great for small businesses and startups alike.',
       adv3T: 'Easy shopping for customers', adv3D: 'Customers browse easily and order multiple items at once — boosting your sales.',
       adv4T: 'Flexible installment plan', adv4D: 'Pay it off over 3 months. If it is no longer needed, you can deactivate the website too.',
@@ -693,10 +710,10 @@
 
       priceEyebrow: 'Pricing',
       priceH2: 'Simple, transparent pricing',
-      priceLead: 'No hidden charges. You know the price upfront.',
+      priceLead: 'No hidden charges. You know the price upfront. This special discount ends at the end of this month.',
       p1T: 'Website Only',
       p1L1: '4 pages (Landing, Store, About, Contact)', p1L2: 'Cart System Included', p1L3: 'Buy Now → Instant Message', p1L4: '10 Products Free',
-      p2Tag: 'Most Popular', p2T: 'Website + Domain',
+      p2Tag: 'Special Discount', p2T: 'Website + Domain',
       p2L1: 'Everything in the Website package', p2L2: 'Your own domain name', p2L3: 'A professional, branded look', p2L4: '3-month installment option',
       installBanner: 'Need more than 10 products? Just <b>Rs. 150</b> each. Cannot pay it all at once? There is a <b>3-month installment plan</b> too.',
 
